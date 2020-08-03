@@ -39,7 +39,11 @@ class Restaurant < ActiveRecord::Base
     end
 
     def self.vegetarian
-
+     vegetarian_tag = Tag.find_by(name: "vegetarian")
+     dt = DishTag.where(tag_id: vegetarian_tag.id)
+     Dish.all.select do |dish|
+        dish.id = dt.id 
+     end
 
         # Restaurant.joins("INNER JOIN dishes ON restaurant.id=dishes.restaurant_id 
         # INNER JOIN dish_tags ON dish.id=dish_tags.dish_id
@@ -47,6 +51,12 @@ class Restaurant < ActiveRecord::Base
         # Restaurant.joins(:dish_tag)
     end
 
-# vegetarian_tag = Tag.find_by(name: "vegetarian")
-# DishTag.where(tag_id: 2)
+    def self.name_like(name)
+        Restaurant.where("name LIKE ?", "%#{name}%")
+    end
+
+    def self.name_not_like(name)
+        Restaurant.where("name NOT LIKE ?", "%#{name}%")
+    end
+
 end
