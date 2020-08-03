@@ -31,4 +31,22 @@ class Restaurant < ActiveRecord::Base
            restaurant.dishes.count < 5
         end
     end
+
+    def self.large_menu
+        Restaurant.all.select do |restaurant|
+            restaurant.dishes.count > 20
+        end
+    end
+
+    def self.vegetarian
+
+
+        # Restaurant.joins("INNER JOIN dishes ON restaurant.id=dishes.restaurant_id 
+        # INNER JOIN dish_tags ON dish.id=dish_tags.dish_id
+        # INNER JOIN tags ON dish_tags.tag_id=tag.id").where(tags: {name: "vegetarian"})
+        # Restaurant.joins(:dish_tag)
+    end
+
+# vegetarian_tag = Tag.find_by(name: "vegetarian")
+# DishTag.where(tag_id: 2)
 end
