@@ -39,16 +39,16 @@ class Restaurant < ActiveRecord::Base
     end
 
     def self.vegetarian
-     vegetarian_tag = Tag.find_by(name: "vegetarian")
-     dt = DishTag.where(tag_id: vegetarian_tag.id)
-     Dish.all.select do |dish|
-        dish.id = dt.id 
-     end
-
-        # Restaurant.joins("INNER JOIN dishes ON restaurant.id=dishes.restaurant_id 
-        # INNER JOIN dish_tags ON dish.id=dish_tags.dish_id
-        # INNER JOIN tags ON dish_tags.tag_id=tag.id").where(tags: {name: "vegetarian"})
-        # Restaurant.joins(:dish_tag)
+        #Find all restaurants where dishes are tagged as vegetarian
+        vegetarian_tag = Tag.find_by(name: "vegetarian")
+        dt = DishTag.where(tag_id: vegetarian_tag.id)
+        all_dishes = dt.map do |dish_tag|
+            dish_tag.dish
+        end
+        veg_restaurants = all_dishes.map do |dish|
+            dish.restaurant
+        end
+        veg_restaurants.uniq
     end
 
     def self.name_like(name)
